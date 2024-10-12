@@ -65,4 +65,5 @@ dependencies {
     // searchbar
     implementation (libs.material)
     implementation (libs.androidx.constraintlayout)
+
 }

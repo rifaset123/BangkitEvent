@@ -22,7 +22,7 @@
             android:textStyle="bold"
             android:textSize="20sp"
             android:textAlignment="center"
-            android:text="Fetching data..."/>
+            android:text="@string/fetch_data"/>
 
         <TextView
             android:id="@+id/detail_summary"
@@ -47,7 +47,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textAlignment="center"
-                android:text="Sisa Kuota: "/>
+                android:text="@string/sisa_kuota"/>
 
             <TextView
                 android:id="@+id/detail_kuota"
@@ -91,6 +91,7 @@
             android:layout_height="wrap_content"
             android:text="@string/visit_website"
             android:layout_marginStart="@dimen/text_margin"
+            android:layout_marginTop="30dp"
             android:layout_marginEnd="@dimen/text_margin"
             android:backgroundTint="?attr/colorPrimary"
             android:textColor="?attr/colorOnPrimary"

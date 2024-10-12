@@ -23,7 +23,7 @@
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:toolbarId="@+id/toolbar">
-            
+
             <ImageView
                 android:id="@+id/image_placeholder"
                 android:layout_width="match_parent"

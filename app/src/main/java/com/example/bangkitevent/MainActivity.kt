@@ -108,7 +108,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             Log.d("SearchTestMain", "Search query is null")
             // Handle the case when query is null
         }
-        Toast.makeText(this, "Search Successfully", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Searchhing $query", Toast.LENGTH_SHORT).show()
         return true
     }
 
@@ -129,7 +129,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 R.id.navigation_finished -> navController.navigate(R.id.navigation_finished, bundle2)
                 else -> Log.e("SearchTestMain", "Unknown destination")
             }
-            Toast.makeText(this, "Search default Value", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Return to default Value", Toast.LENGTH_SHORT).show()
         }
         return true
     }

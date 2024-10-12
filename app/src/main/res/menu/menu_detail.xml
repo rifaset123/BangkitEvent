@@ -3,8 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.bangkitevent.ui.detail.DetailActivity">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/menu_search"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+        android:title="@string/searchbar_hint"
+        android:icon="@drawable/ic_search_24"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="ifRoom" />
 </menu>

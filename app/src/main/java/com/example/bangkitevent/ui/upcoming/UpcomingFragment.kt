@@ -27,6 +27,10 @@ class UpcomingFragment : Fragment() , OnEventClickListener {
     // onDestroyView.
     private val binding get() = _binding!!
 
+    companion object{
+        const val EXTRA_QUERY = ""
+    }
+
 
     override fun onEventClick(event: ListEventsItem) {
         // Handle the click event
@@ -54,10 +58,9 @@ class UpcomingFragment : Fragment() , OnEventClickListener {
 
 
         val recyclerView: RecyclerView = binding.rvUpcoming
-        val adapter = EventAdapter(emptyList<ListEventsItem>(), this)
+        val adapter = EventAdapter(this)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(context)
-
 
         // observe loading
         upcomingViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
@@ -65,17 +68,45 @@ class UpcomingFragment : Fragment() , OnEventClickListener {
         }
 
         // observe listEventsItem
-        upcomingViewModel.listEventsItem.observe(viewLifecycleOwner) { events ->
-            adapter.updateEvents(events ?: emptyList())
-            Log.d("UpcomingFragment", "RecyclerView loaded with ${events?.size ?: 0} items")
+        if (arguments?.containsKey(EXTRA_QUERY) == true) {
+            val query = arguments?.getString(EXTRA_QUERY)
+            Log.d("UpcomingFragmentTest", "Search query: $query")
+            if (query == "%default") {
+                observeStoredData(upcomingViewModel, adapter)
+                Log.d("UpcomingFragment", "RecyclerView loaded with stored data")
+            } else {
+                if (query != null) {
+                    upcomingViewModel.searchEvents(query)
+                }
+                observeListEventsItem(upcomingViewModel, adapter)
+            }
+        }else{
+            observeListEventsItem(upcomingViewModel, adapter)
+            Log.d("UpcomingFragment", "RecyclerView loaded ")
         }
 
-
         return root
+
+    }
+
+    fun observeListEventsItem(upcomingViewModel: UpcomingViewModel, adapter: EventAdapter) {
+        // observe listEventsItem
+        upcomingViewModel.listEventsItem.observe(viewLifecycleOwner) { events ->
+            adapter.submitList(events ?: emptyList())
+            Log.d("UpcomingFragment", "RecyclerView loaded with ${events?.size ?: 0} items")
+        }
+    }
+    fun observeStoredData(upcomingViewModel: UpcomingViewModel, adapter: EventAdapter) {
+        // observe listEventsItem
+        upcomingViewModel.storedDefault.observe(viewLifecycleOwner) { events ->
+            adapter.submitList(events ?: emptyList())
+            Log.d("UpcomingFragment", "RecyclerView loaded with ${events?.size ?: 0} items")
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
 }

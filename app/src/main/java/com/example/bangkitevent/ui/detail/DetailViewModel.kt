@@ -8,7 +8,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.bangkitevent.data.response.Event
-import com.example.bangkitevent.data.response.EventID
 import com.example.bangkitevent.data.response.EventIDResponse
 import com.example.bangkitevent.data.response.EventResponse
 import com.example.bangkitevent.data.response.ListEventsItem
@@ -69,46 +68,5 @@ class DetailViewModel(application: Application) : AndroidViewModel(application) 
                 Toast.makeText(getApplication(), "Failed to load events: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
-
     }
-
-//    fun fetchEventDetail(eventID: String) {
-//        _isLoading.value = true
-//        Log.d("DetailViewModel", "Fetching event details for ID: $eventID")
-//
-//        // Call the API service to get event details
-//        val client = ApiConfig.getApiService().getDetailEvent(eventID)
-//        client.enqueue(object : Callback<EventResponse> {
-//            override fun onResponse(
-//                call: Call<EventResponse>,
-//                response: Response<EventResponse>
-//            ) {
-//                _isLoading.value = false
-//                Log.d("DetailViewModel", "API response received")
-//
-//                // Check if the response is successful and body is not null
-//                if (response.isSuccessful) {
-//                    response.body()?.let { eventResponse ->
-//                        // Find the specific event by ID and post the result to LiveData
-//                        _detailEvent.value = eventResponse.listEvents.find { event ->
-//                            event.id == eventID.toInt()
-//                        }
-//                        Log.d("DetailViewModel", "onResponse: Success - ${eventResponse.listEvents}")
-//                    } ?: run {
-//                        Log.e("DetailViewModel", "onResponse: Failure - Response body is null")
-//                    }
-//                } else {
-//                    // Handle error response
-//                    _error.value = "Error ${response.code()}: ${response.message()}"
-//                    Log.e("DetailViewModel", "onResponse: Failure - ${response.code()} - ${response.message()}")
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<EventResponse>, t: Throwable) {
-//                _isLoading.value = false
-//                _error.value = t.message ?: "Unknown error"
-//                Log.e("DetailViewModel", "onFailure: ${t.message}")
-//            }
-//        })
-//    }
 }

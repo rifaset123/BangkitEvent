@@ -61,4 +61,8 @@ dependencies {
 
     // image
     implementation (libs.github.glide)
+
+    // searchbar
+    implementation (libs.material)
+    implementation (libs.androidx.constraintlayout)
 }

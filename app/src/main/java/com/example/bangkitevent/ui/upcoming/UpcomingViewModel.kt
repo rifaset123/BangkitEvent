@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bumptech.glide.Glide
+import com.example.bangkitevent.data.response.EventIDResponse
 import com.example.bangkitevent.data.response.EventResponse
 import com.example.bangkitevent.data.response.ListEventsItem
 import com.example.bangkitevent.data.retrofit.ApiConfig
@@ -35,11 +36,15 @@ class UpcomingViewModel(application: Application) : AndroidViewModel(application
     private val _listEventsItem = MutableLiveData<List<ListEventsItem>?>()
     val listEventsItem: LiveData<List<ListEventsItem>?> = _listEventsItem
 
+    // store default value before query inputed
+    private val _storedDefault = MutableLiveData<List<ListEventsItem>?>()
+    val storedDefault: LiveData<List<ListEventsItem>?> = _storedDefault
+
     init {
         showEvents()
     }
 
-    private fun showEvents(){
+    private fun showEvents(newListEventsItem: List<ListEventsItem>? = null) {
         _isLoading.value = true
         val client = ApiConfig.getApiService().getEvents()
         client.enqueue(object : Callback<EventResponse> {
@@ -51,7 +56,11 @@ class UpcomingViewModel(application: Application) : AndroidViewModel(application
                 if (response.isSuccessful) {
                     response.body()?.let {
                         _listEventsItem.value = it.listEvents
-                        Log.d(TAG, "onResponse: Success - ${it.listEvents}")
+                        if (_storedDefault.value == null) {
+                            _storedDefault.value = it.listEvents
+                        }
+                        _listEventsItem.value = newListEventsItem ?: it.listEvents
+                        Log.d("wwtest", "onResponse: Success - ${newListEventsItem ?: it.listEvents}")
                     } ?: run {
                         Log.e(TAG, "onResponse: Failure - Response body is null")
                     }
@@ -63,6 +72,44 @@ class UpcomingViewModel(application: Application) : AndroidViewModel(application
             override fun onFailure(call: Call<EventResponse>, t: Throwable) {
                 _isLoading.value = false
                 Log.e(TAG, "onFailure: ${t.message.toString()}")
+                Toast.makeText(getApplication(), "Failed to load events: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    fun searchEvents(query: String) {
+        _isLoading.value = true
+        Log.d("QueryTest", "Fetching event details for ID: $query")
+
+        // Call the API service to get event details
+        val client = ApiConfig.getApiService().searchEvents(query)
+        client.enqueue(object : Callback<EventResponse> {
+            override fun onResponse(call: Call<EventResponse>, response: Response<EventResponse>) {
+                _isLoading.value = false
+                _listEventsItem.value = emptyList() // Clear existing data
+                Log.d("QueryTest", "API response received")
+
+                // Check if the response is successful and body is not null
+                if (response.isSuccessful) {
+                    response.body()?.let { eventResponse ->
+                        // store the value to LiveData _detailEvent
+                        _listEventsItem.value = eventResponse.listEvents
+                        showEvents(eventResponse.listEvents)
+                        Log.d("QueryTest", "onResponse: Success - ${eventResponse.listEvents.size}")
+
+                    } ?: run {
+                        Log.e("QueryTest", "onResponse: Failure - Response body is null")
+                    }
+                } else {
+                    // Handle error response
+                    Log.e("QueryTest", "onResponse: Failure - ${response.code()} - ${response.message()}")
+                    Toast.makeText(getApplication(), "Failed to Fetch API", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<EventResponse>, t: Throwable) {
+                _isLoading.value = false
+                Log.e("QueryTest", "onFailure: ${t.message}")
                 Toast.makeText(getApplication(), "Failed to load events: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })

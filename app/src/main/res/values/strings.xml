@@ -22,4 +22,6 @@
     <string name="title_activity_detail">DetailActivity</string>
     <string name="information_header">Informasi:</string>
     <string name="visit_website">Visit Website</string>
+
+    <string name="searchbar_hint">Cari event!</string>
 </resources>

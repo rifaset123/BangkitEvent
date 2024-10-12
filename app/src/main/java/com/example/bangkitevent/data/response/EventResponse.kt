@@ -15,18 +15,6 @@ data class EventResponse(
 	val message: String? = null
 )
 
-data class EventID(
-
-	@field:SerializedName("event")
-//	val listEvents: List<ListEventsItem?>? = null,
-	val listEventsID: List<ListEventsItem> = listOf(),
-
-	@field:SerializedName("error")
-	val error: Boolean? = null,
-
-	@field:SerializedName("message")
-	val message: String? = null
-)
 
 data class ListEventsItem(
 

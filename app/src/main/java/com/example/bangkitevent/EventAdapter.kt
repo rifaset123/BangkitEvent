@@ -1,52 +1,65 @@
 package com.example.bangkitevent
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.bangkitevent.data.response.EventResponse
 import com.example.bangkitevent.data.response.ListEventsItem
+import com.example.bangkitevent.databinding.ItemCardViewBinding
 import com.example.bangkitevent.util.OnEventClickListener
 
-class EventAdapter(private var events: List<ListEventsItem>, private val listener: OnEventClickListener) : RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
+class EventAdapter(private val listener: OnEventClickListener) : ListAdapter<ListEventsItem, EventAdapter.EventViewHolder>(DIFF_CALLBACK) {
 
-    class EventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val imgEvent: ImageView = itemView.findViewById(R.id.item_image)
-        val eventName: TextView = itemView.findViewById(R.id.item_title)
-        var itemId: Int = 0
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_card_view, parent, false)
-        return EventViewHolder(view)
-    }
-
-    override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
-        val event = events[position]
-
-        // preview data
-        holder.eventName.text = event.name
-        Glide.with(holder.itemView.context)
-            .load(event.imageLogo) // URL Gambar
-            .centerCrop()
-            .placeholder(R.drawable.ng)
-            .into(holder.imgEvent) // imageView mana yang akan diterapkan
-
-        // click handler
-        holder.itemView.setOnClickListener {
-            listener.onEventClick(event)
+    companion object {
+        // untuk memeriksa apakah suatu data masih sama atau tidak
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ListEventsItem>() {
+            override fun areItemsTheSame(oldItem: ListEventsItem, newItem: ListEventsItem): Boolean {
+                val result = oldItem == newItem
+                Log.d("EventAdapter", "areItemsTheSame: $result")
+                return result
+            }
+            override fun areContentsTheSame(oldItem: ListEventsItem, newItem: ListEventsItem): Boolean {
+                val result = oldItem == newItem
+                Log.d("EventAdapter", "areContentsTheSame: $result")
+                return result
+            }
         }
     }
 
-    override fun getItemCount() = events.size
+    class EventViewHolder(val binding: ItemCardViewBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(event: ListEventsItem) {
+            binding.itemTitle.text = event.name
+            Glide.with(binding.root.context)
+                .load(event.imageLogo) // URL Gambar
+                .centerCrop()
+                .placeholder(R.drawable.ng)
+                .into(binding.itemImage) // imageView mana yang akan diterapkan
 
-    fun updateEvents(newEvents: List<ListEventsItem>) {
-        events = newEvents
-        notifyDataSetChanged()
+            // click handler
+
+        }
     }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
+        val binding = ItemCardViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return EventViewHolder(binding)
+    }
+
+    override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
+        val event = getItem(position)
+        holder.bind(event)
+        holder.itemView.setOnClickListener(View.OnClickListener {
+            listener.onEventClick(event)
+        })
+    }
+
+    override fun getItemCount() = currentList.size
 
 }

@@ -12,9 +12,9 @@
     <string name="finished_events">Finished Events</string>
     <string name="upcoming_events">Upcoming Events</string>
     <string name="placeholder_image">placeholder_image</string>
-    <string name="fetch_data">Fetching data...</string>
+    <string name="fetch_data">Fetching data…</string>
     <string name="sisa_kuota">Sisa Kuota:</string>
-    <string name="fetching_data">Fetching data...</string>
+    <string name="fetching_data">Fetching data…</string>
     <string name="these_might_interest_you">These might interest you</string>
     <string name="recommended_event_for_you">Recommended event for you</string>
     <string name="title_placeholder">Title</string>

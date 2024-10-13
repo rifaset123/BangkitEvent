@@ -2,6 +2,7 @@ package com.example.bangkitevent.data.response
 
 import com.google.gson.annotations.SerializedName
 
+// ini biar lebih gampang nyari berdasarkan id nya
 data class EventIDResponse(
 
 	@field:SerializedName("error")

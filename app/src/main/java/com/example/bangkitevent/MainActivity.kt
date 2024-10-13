@@ -1,13 +1,10 @@
 package com.example.bangkitevent
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import androidx.activity.viewModels
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
@@ -16,11 +13,11 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.bangkitevent.databinding.ActivityMainBinding
-import com.example.bangkitevent.databinding.FragmentUpcomingBinding
 import com.example.bangkitevent.ui.finished.FinishedFragment.Companion.EXTRA_QUERY2
 import com.example.bangkitevent.ui.upcoming.UpcomingFragment
 import com.example.bangkitevent.ui.upcoming.UpcomingFragment.Companion.EXTRA_QUERY
 import com.example.bangkitevent.ui.upcoming.UpcomingViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
@@ -37,7 +34,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         setContentView(binding.root)
 
         // search
-        upcomingViewModel = ViewModelProvider(this).get(UpcomingViewModel::class.java)
+        upcomingViewModel = ViewModelProvider(this)[UpcomingViewModel::class.java]
         upcomingFragment = UpcomingFragment()
         adapter = EventAdapter(upcomingFragment)
         upcomingViewModel.listEventsItem.observe(this) { events ->
@@ -48,7 +45,6 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         val navView: BottomNavigationView = binding.navView
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
-        // Passing each menu ID as a set of Ids because each
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_home, R.id.navigation_upcoming, R.id.navigation_finished
@@ -106,7 +102,6 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             }
         } ?: run {
             Log.d("SearchTestMain", "Search query is null")
-            // Handle the case when query is null
         }
         Toast.makeText(this, "Searchhing $query", Toast.LENGTH_SHORT).show()
         return true
@@ -115,7 +110,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     override fun onQueryTextChange(query: String?): Boolean {
         if (query.isNullOrEmpty()) {
             Log.d("SearchTestMain", "Search query is empty or null")
-            // Handle the case when query is empty or null
+            // Handler when query is empty return to original event
             val navController = findNavController(R.id.nav_host_fragment_activity_main)
             val bundle = Bundle().apply {
                 putString(EXTRA_QUERY, "%default")

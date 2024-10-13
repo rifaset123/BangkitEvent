@@ -4,8 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
@@ -14,13 +12,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.bangkitevent.EventAdapter
-import com.example.bangkitevent.R
 import com.example.bangkitevent.data.response.ListEventsItem
 import com.example.bangkitevent.databinding.FragmentFinishedBinding
 import com.example.bangkitevent.ui.detail.DetailActivity
 import com.example.bangkitevent.ui.detail.DetailActivity.Companion.EXTRA_ID
-import com.example.bangkitevent.ui.upcoming.UpcomingFragment.Companion.EXTRA_QUERY
-import com.example.bangkitevent.ui.upcoming.UpcomingViewModel
 import com.example.bangkitevent.util.OnEventClickListener
 
 
@@ -28,11 +23,8 @@ class FinishedFragment : Fragment(), OnEventClickListener {
 
     private var _binding: FragmentFinishedBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
-    private lateinit var finishedViewModel: FinishedViewModel
 
     companion object{
         const val EXTRA_QUERY2 = "0"
@@ -44,7 +36,7 @@ class FinishedFragment : Fragment(), OnEventClickListener {
         event.id?.let { id ->
             Log.d("FinishedFragmentClickTest", "Navigating to DetailActivity with Event ID: $id")
             val intentToDetail = Intent(requireActivity(), DetailActivity::class.java).apply {
-                putExtra(EXTRA_ID, id.toString())
+                putExtra(EXTRA_ID, id)
             }
             startActivity(intentToDetail)
         } ?: run {
@@ -57,7 +49,7 @@ class FinishedFragment : Fragment(), OnEventClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val finishedViewModel = ViewModelProvider(this).get(FinishedViewModel::class.java)
+        val finishedViewModel = ViewModelProvider(this)[FinishedViewModel::class.java]
 
         _binding = FragmentFinishedBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -97,7 +89,7 @@ class FinishedFragment : Fragment(), OnEventClickListener {
         return root
 
     }
-    fun observeListEventsItem(finishedViewModel: FinishedViewModel, adapter: EventAdapter) {
+    private fun observeListEventsItem(finishedViewModel: FinishedViewModel, adapter: EventAdapter) {
         // observe listEventsItem
         finishedViewModel.listEventsItem.observe(viewLifecycleOwner) { events ->
             adapter.submitList(events ?: emptyList())
@@ -106,7 +98,7 @@ class FinishedFragment : Fragment(), OnEventClickListener {
     }
 
     // observe data if user search with no query
-    fun observeStoredData(finishedViewModel: FinishedViewModel, adapter: EventAdapter) {
+    private fun observeStoredData(finishedViewModel: FinishedViewModel, adapter: EventAdapter) {
         // observe listEventsItem
         finishedViewModel.storedDefault.observe(viewLifecycleOwner) { events ->
             adapter.submitList(events ?: emptyList())

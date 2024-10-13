@@ -6,13 +6,9 @@ import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.example.bangkitevent.data.response.EventResponse
 import com.example.bangkitevent.data.response.ListEventsItem
 import com.example.bangkitevent.data.retrofit.ApiConfig
-import com.example.bangkitevent.data.retrofit.ApiService
-import com.example.bangkitevent.ui.upcoming.UpcomingViewModel
-import com.example.bangkitevent.ui.upcoming.UpcomingViewModel.Companion
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -24,16 +20,9 @@ class FinishedViewModel(application: Application) : AndroidViewModel(application
     }
     val text: LiveData<String> = _text
 
-    companion object{
-        private const val TAG = "MainViewModel"
-
-    }
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
-
-    private val _eventsName = MutableLiveData<List<EventResponse>>()
-    val eventsName: LiveData<List<EventResponse>> = _eventsName
 
     private val _listEventsItem = MutableLiveData<List<ListEventsItem>?>()
     val listEventsItem: LiveData<List<ListEventsItem>?> = _listEventsItem
@@ -83,15 +72,15 @@ class FinishedViewModel(application: Application) : AndroidViewModel(application
         _isLoading.value = true
         Log.d("QueryTest", "Fetching event details for ID: $query")
 
-        // Call the API service to get event details
+        // call API
         val client = ApiConfig.getApiService().searchEvents(query)
         client.enqueue(object : Callback<EventResponse> {
             override fun onResponse(call: Call<EventResponse>, response: Response<EventResponse>) {
                 _isLoading.value = false
-                _listEventsItem.value = emptyList() // Clear existing data
+                _listEventsItem.value = emptyList() // clear data
                 Log.d("QueryTest", "API response received")
 
-                // Check if the response is successful and body is not null
+                // check successfully response
                 if (response.isSuccessful) {
                     response.body()?.let { eventResponse ->
                         // store the value to LiveData _detailEvent

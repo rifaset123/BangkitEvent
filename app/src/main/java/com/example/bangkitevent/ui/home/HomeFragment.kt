@@ -6,13 +6,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.GridLayout
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.bangkitevent.EventAdapter
@@ -36,7 +32,7 @@ class HomeFragment : Fragment(), OnEventClickListener {
         savedInstanceState: Bundle?
     ): View {
         val homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
+            ViewModelProvider(this)[HomeViewModel::class.java]
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -51,7 +47,7 @@ class HomeFragment : Fragment(), OnEventClickListener {
         val recyclerView: RecyclerView = binding.recyclerViewFinishedEvents
         val adapter = EventAdapter(this)
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
 
         // observe loading
         homeViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
@@ -83,7 +79,7 @@ class HomeFragment : Fragment(), OnEventClickListener {
         event.id?.let { id ->
             Log.d("FinishedFragmentClickTest", "Navigating to DetailActivity with Event ID: $id")
             val intentToDetail = Intent(requireActivity(), DetailActivity::class.java).apply {
-                putExtra(EXTRA_ID, id.toString())
+                putExtra(EXTRA_ID, id)
             }
             startActivity(intentToDetail)
         } ?: run {

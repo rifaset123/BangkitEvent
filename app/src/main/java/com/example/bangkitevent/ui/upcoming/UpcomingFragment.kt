@@ -6,12 +6,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.bangkitevent.EventAdapter
 import com.example.bangkitevent.data.response.ListEventsItem
 import com.example.bangkitevent.databinding.FragmentUpcomingBinding
@@ -38,7 +36,7 @@ class UpcomingFragment : Fragment() , OnEventClickListener {
         event.id?.let { id ->
             Log.d("FinishedFragmentClickTest", "Navigating to DetailActivity with Event ID: $id")
             val intentToDetail = Intent(requireActivity(), DetailActivity::class.java).apply {
-                putExtra(EXTRA_ID, id.toString())
+                putExtra(EXTRA_ID, id)
             }
             startActivity(intentToDetail)
         } ?: run {
@@ -51,7 +49,7 @@ class UpcomingFragment : Fragment() , OnEventClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val upcomingViewModel = ViewModelProvider(this).get(UpcomingViewModel::class.java)
+        val upcomingViewModel = ViewModelProvider(this)[UpcomingViewModel::class.java]
 
         _binding = FragmentUpcomingBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -89,14 +87,14 @@ class UpcomingFragment : Fragment() , OnEventClickListener {
 
     }
 
-    fun observeListEventsItem(upcomingViewModel: UpcomingViewModel, adapter: EventAdapter) {
+    private fun observeListEventsItem(upcomingViewModel: UpcomingViewModel, adapter: EventAdapter) {
         // observe listEventsItem
         upcomingViewModel.listEventsItem.observe(viewLifecycleOwner) { events ->
             adapter.submitList(events ?: emptyList())
             Log.d("UpcomingFragment", "RecyclerView loaded with ${events?.size ?: 0} items")
         }
     }
-    fun observeStoredData(upcomingViewModel: UpcomingViewModel, adapter: EventAdapter) {
+    private fun observeStoredData(upcomingViewModel: UpcomingViewModel, adapter: EventAdapter) {
         // observe listEventsItem
         upcomingViewModel.storedDefault.observe(viewLifecycleOwner) { events ->
             adapter.submitList(events ?: emptyList())

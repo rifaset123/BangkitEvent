@@ -6,12 +6,9 @@ import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.example.bangkitevent.data.response.EventResponse
 import com.example.bangkitevent.data.response.ListEventsItem
 import com.example.bangkitevent.data.retrofit.ApiConfig
-import com.example.bangkitevent.ui.finished.FinishedViewModel
-import com.example.bangkitevent.ui.finished.FinishedViewModel.Companion
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -23,9 +20,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
-
-    private val _eventsName = MutableLiveData<List<EventResponse>>()
-    val eventsName: LiveData<List<EventResponse>> = _eventsName
 
     private val _listEventsItem = MutableLiveData<List<ListEventsItem>?>()
     val listEventsItem: LiveData<List<ListEventsItem>?> = _listEventsItem
@@ -68,6 +62,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         })
     }
 
+    // search API with id
     private fun showFinishedEvents(){
         _isLoading.value = true
         val client = ApiConfig.getApiService().getFinishedEvents()

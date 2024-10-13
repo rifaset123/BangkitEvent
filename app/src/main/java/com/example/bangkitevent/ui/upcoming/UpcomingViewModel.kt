@@ -6,9 +6,6 @@ import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.bumptech.glide.Glide
-import com.example.bangkitevent.data.response.EventIDResponse
 import com.example.bangkitevent.data.response.EventResponse
 import com.example.bangkitevent.data.response.ListEventsItem
 import com.example.bangkitevent.data.retrofit.ApiConfig
@@ -29,9 +26,6 @@ class UpcomingViewModel(application: Application) : AndroidViewModel(application
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
-
-    private val _eventsName = MutableLiveData<List<EventResponse>>()
-    val eventsName: LiveData<List<EventResponse>> = _eventsName
 
     private val _listEventsItem = MutableLiveData<List<ListEventsItem>?>()
     val listEventsItem: LiveData<List<ListEventsItem>?> = _listEventsItem
@@ -81,7 +75,7 @@ class UpcomingViewModel(application: Application) : AndroidViewModel(application
         _isLoading.value = true
         Log.d("QueryTest", "Fetching event details for ID: $query")
 
-        // Call the API service to get event details
+        // call API
         val client = ApiConfig.getApiService().searchEvents(query)
         client.enqueue(object : Callback<EventResponse> {
             override fun onResponse(call: Call<EventResponse>, response: Response<EventResponse>) {
@@ -89,7 +83,7 @@ class UpcomingViewModel(application: Application) : AndroidViewModel(application
                 _listEventsItem.value = emptyList() // Clear existing data
                 Log.d("QueryTest", "API response received")
 
-                // Check if the response is successful and body is not null
+                // check success response
                 if (response.isSuccessful) {
                     response.body()?.let { eventResponse ->
                         // store the value to LiveData _detailEvent

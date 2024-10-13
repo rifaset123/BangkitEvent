@@ -10,6 +10,7 @@ android {
     defaultConfig {
         applicationId = "com.example.bangkitevent"
         minSdk = 30
+        //noinspection OldTargetApi,OldTargetApi
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"

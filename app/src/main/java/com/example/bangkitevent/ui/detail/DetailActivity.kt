@@ -32,6 +32,7 @@ class DetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val titleTextView: TextView = findViewById(R.id.detail_title)
+        val detailOwner: TextView = findViewById(R.id.detail_owner)
         val summaryTextView: TextView = findViewById(R.id.detail_summary)
         val kuotaTextView: TextView = findViewById(R.id.detail_kuota)
         val beginTimeTextView: TextView = findViewById(R.id.detail_beginTime)
@@ -74,6 +75,7 @@ class DetailActivity : AppCompatActivity() {
                     .load(it.imageLogo)
                     .into(binding.toolbarLayout.findViewById(R.id.image_placeholder))
                 titleTextView.text = it.name
+                detailOwner.text = it.ownerName
                 summaryTextView.text = it.summary
                 // sisa kuota (quota - registrants)
                 kuotaTextView.text = (it.registrants?.let { it1 -> it.quota?.minus(it1) } ?: "N/A").toString()

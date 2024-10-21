@@ -56,14 +56,16 @@ class HomeFragment : Fragment(), OnEventClickListener {
 
         // observe listEventsItem
         homeViewModel.listEventsItem.observe(viewLifecycleOwner) { events ->
-            adapter.submitList(events ?: emptyList())
-            Log.d("UpcomingFragment", "RecyclerView loaded with ${events?.size ?: 0} items")
+            val limitedEvents = events?.take(5) ?: emptyList() // max 5 item
+            adapter.submitList(limitedEvents)
+            Log.d("UpcomingFragment", "RecyclerView loaded with ${limitedEvents.size} items")
         }
 
         // observe finished listEventsItem
         homeViewModel.listEventsItemFinished.observe(viewLifecycleOwner) { events ->
-            adapterUpcoming.submitList(events ?: emptyList())
-            Log.d("UpcomingFragment", "RecyclerView loaded with ${events?.size ?: 0} items")
+            val limitedEvents = events?.take(5) ?: emptyList() // max 5 item
+            adapterUpcoming.submitList(limitedEvents)
+            Log.d("UpcomingFragment", "RecyclerView loaded with ${limitedEvents.size} items")
         }
         return root
     }

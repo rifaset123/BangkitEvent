@@ -6,9 +6,9 @@ import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.bangkitevent.data.response.EventResponse
-import com.example.bangkitevent.data.response.ListEventsItem
-import com.example.bangkitevent.data.retrofit.ApiConfig
+import com.example.bangkitevent.data.remote.response.EventResponse
+import com.example.bangkitevent.data.remote.response.ListEventsItem
+import com.example.bangkitevent.data.remote.retrofit.ApiConfig
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

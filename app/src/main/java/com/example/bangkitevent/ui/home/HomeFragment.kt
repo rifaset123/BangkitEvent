@@ -7,16 +7,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.bangkitevent.EventAdapter
-import com.example.bangkitevent.data.response.ListEventsItem
+import com.example.bangkitevent.data.remote.response.ListEventsItem
 import com.example.bangkitevent.databinding.FragmentHomeBinding
+import com.example.bangkitevent.ui.ViewModelFactory
 import com.example.bangkitevent.ui.detail.DetailActivity
 import com.example.bangkitevent.ui.detail.DetailActivity.Companion.EXTRA_ID
-import com.example.bangkitevent.util.OnEventClickListener
+import com.example.bangkitevent.ui.finished.FinishedViewModel
+import com.example.bangkitevent.utils.OnEventClickListener
 
 class HomeFragment : Fragment(), OnEventClickListener {
 
@@ -31,9 +34,9 @@ class HomeFragment : Fragment(), OnEventClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val homeViewModel =
-            ViewModelProvider(this)[HomeViewModel::class.java]
-
+        val homeViewModel: HomeViewModel by viewModels {
+            ViewModelFactory.getInstance(requireContext())
+        }
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 

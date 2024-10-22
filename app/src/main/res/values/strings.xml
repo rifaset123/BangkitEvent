@@ -19,4 +19,8 @@
     <string name="recommended_event_for_you">Recommended event for you</string>
     <string name="title_placeholder">Title</string>
     <string name="penyelenggara_acara">Penyelenggara Acara</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_favorite">Favorite</string>
+    <string name="here_s_your_favorite_events">Here\'s your favorite Events</string>
 </resources>

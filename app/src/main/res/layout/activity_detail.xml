@@ -32,8 +32,6 @@
                 android:src="@drawable/ng"
                 android:scaleType="centerCrop"/>
 
-
-
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
@@ -58,5 +56,16 @@
         tools:visibility="visible" />
 
     <include layout="@layout/content_scrolling" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:foregroundGravity="bottom"
+        app:fabSize="normal"
+        app:layout_anchor="@id/app_bar"
+        app:layout_anchorGravity="bottom|end|right"
+        app:srcCompat="@drawable/ic_favorite_border_24" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -7,16 +7,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.bangkitevent.EventAdapter
-import com.example.bangkitevent.data.response.ListEventsItem
+import com.example.bangkitevent.data.remote.response.ListEventsItem
 import com.example.bangkitevent.databinding.FragmentFinishedBinding
+import com.example.bangkitevent.ui.ViewModelFactory
 import com.example.bangkitevent.ui.detail.DetailActivity
 import com.example.bangkitevent.ui.detail.DetailActivity.Companion.EXTRA_ID
-import com.example.bangkitevent.util.OnEventClickListener
+import com.example.bangkitevent.utils.OnEventClickListener
 
 
 class FinishedFragment : Fragment(), OnEventClickListener {
@@ -49,7 +50,10 @@ class FinishedFragment : Fragment(), OnEventClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val finishedViewModel = ViewModelProvider(this)[FinishedViewModel::class.java]
+
+        val finishedViewModel: FinishedViewModel by viewModels {
+            ViewModelFactory.getInstance(requireContext())
+        }
 
         _binding = FragmentFinishedBinding.inflate(inflater, container, false)
         val root: View = binding.root

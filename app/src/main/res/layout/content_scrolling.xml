@@ -24,6 +24,8 @@
             android:textAlignment="center"
             android:text="@string/fetch_data"/>
 
+
+
         <TextView
             android:id="@+id/detail_summary"
             android:layout_width="match_parent"
@@ -119,6 +121,5 @@
             android:padding="16dp" />
 
     </LinearLayout>
-
 
 </androidx.core.widget.NestedScrollView>

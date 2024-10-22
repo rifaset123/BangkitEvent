@@ -1,21 +1,22 @@
-package com.example.bangkitevent.data.response
+package com.example.bangkitevent.data.remote.response
 
 import com.google.gson.annotations.SerializedName
 
-// ini biar lebih gampang nyari berdasarkan id nya
-data class EventIDResponse(
+data class EventResponse(
 
-	@field:SerializedName("error")
+    @field:SerializedName("listEvents")
+//	val listEvents: List<ListEventsItem?>? = null,
+	val listEvents: List<ListEventsItem> = listOf(),
+
+    @field:SerializedName("error")
 	val error: Boolean? = null,
 
-	@field:SerializedName("message")
-	val message: String? = null,
-
-	@field:SerializedName("event")
-	val event: Event? = null
+    @field:SerializedName("message")
+	val message: String? = null
 )
 
-data class Event(
+
+data class ListEventsItem(
 
 	@field:SerializedName("summary")
 	val summary: String? = null,
@@ -48,7 +49,7 @@ data class Event(
 	val name: String? = null,
 
 	@field:SerializedName("id")
-	val id: Int? = null,
+	val id: String? = null,
 
 	@field:SerializedName("beginTime")
 	val beginTime: String? = null,

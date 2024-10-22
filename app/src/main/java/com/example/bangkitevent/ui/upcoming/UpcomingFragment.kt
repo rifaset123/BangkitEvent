@@ -11,11 +11,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bangkitevent.EventAdapter
-import com.example.bangkitevent.data.response.ListEventsItem
+import com.example.bangkitevent.data.remote.response.ListEventsItem
 import com.example.bangkitevent.databinding.FragmentUpcomingBinding
 import com.example.bangkitevent.ui.detail.DetailActivity
 import com.example.bangkitevent.ui.detail.DetailActivity.Companion.EXTRA_ID
-import com.example.bangkitevent.util.OnEventClickListener
+import com.example.bangkitevent.utils.OnEventClickListener
 
 class UpcomingFragment : Fragment() , OnEventClickListener {
 

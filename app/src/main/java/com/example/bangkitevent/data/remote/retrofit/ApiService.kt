@@ -1,7 +1,7 @@
-package com.example.bangkitevent.data.retrofit
+package com.example.bangkitevent.data.remote.retrofit
 
-import com.example.bangkitevent.data.response.EventIDResponse
-import com.example.bangkitevent.data.response.EventResponse
+import com.example.bangkitevent.data.remote.response.EventIDResponse
+import com.example.bangkitevent.data.remote.response.EventResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path

@@ -1,4 +1,4 @@
-package com.example.bangkitevent.data.retrofit
+package com.example.bangkitevent.data.remote.retrofit
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

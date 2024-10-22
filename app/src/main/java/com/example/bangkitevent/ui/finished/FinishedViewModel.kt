@@ -6,14 +6,19 @@ import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.bangkitevent.data.response.EventResponse
-import com.example.bangkitevent.data.response.ListEventsItem
-import com.example.bangkitevent.data.retrofit.ApiConfig
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.bangkitevent.data.remote.local.entity.EventEntity
+import com.example.bangkitevent.data.remote.local.repository.EventRepo
+import com.example.bangkitevent.data.remote.response.EventResponse
+import com.example.bangkitevent.data.remote.response.ListEventsItem
+import com.example.bangkitevent.data.remote.retrofit.ApiConfig
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class FinishedViewModel(application: Application) : AndroidViewModel(application) {
+class FinishedViewModel(private val eventRepo: EventRepo) : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is dashboard Fragment"
@@ -52,18 +57,21 @@ class FinishedViewModel(application: Application) : AndroidViewModel(application
                         }
                         _listEventsItem.value = newListEventsItem ?: it.listEvents
                         Log.d("wtest", "onResponse: Success - ${newListEventsItem ?: it.listEvents}")
+
+                        // Save to local database
+//                        saveEventsToDatabase(it.listEvents)
                     } ?: run {
                         Log.e("wtest", "onResponse: Failure - Response body is null")
                     }
                 } else {
                     Log.e("wtest", "onResponse: Failure - ${response.code()} - ${response.message()}")
-                    Toast.makeText(getApplication(), "Failed to Fetch API", Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(getApplication(), "Failed to Fetch API", Toast.LENGTH_SHORT).show()
                 }
             }
             override fun onFailure(call: Call<EventResponse>, t: Throwable) {
                 _isLoading.value = false
                 Log.e("wtest", "onFailure: ${t.message.toString()}")
-                Toast.makeText(getApplication(), "Failed to load events: ${t.message}", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(getApplication(), "Failed to load events: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -86,6 +94,7 @@ class FinishedViewModel(application: Application) : AndroidViewModel(application
                         // store the value to LiveData _detailEvent
                         _listEventsItem.value = eventResponse.listEvents
                         showEvents(eventResponse.listEvents)
+
                         Log.d("QueryTest", "onResponse: Success - ${eventResponse.listEvents.size}")
 
                     } ?: run {
@@ -94,15 +103,22 @@ class FinishedViewModel(application: Application) : AndroidViewModel(application
                 } else {
                     // Handle error response
                     Log.e("QueryTest", "onResponse: Failure - ${response.code()} - ${response.message()}")
-                    Toast.makeText(getApplication(), "Failed to Fetch API", Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(getApplication(), "Failed to Fetch API", Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<EventResponse>, t: Throwable) {
                 _isLoading.value = false
                 Log.e("QueryTest", "onFailure: ${t.message}")
-                Toast.makeText(getApplication(), "Failed to load events: ${t.message}", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(getApplication(), "Failed to load events: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
     }
+
+//    // save local
+//    private fun saveEventsToDatabase(events: List<ListEventsItem>) {
+//        viewModelScope.launch {
+//            eventRepo.saveEventsToDatabase(events)
+//        }
+//    }
 }

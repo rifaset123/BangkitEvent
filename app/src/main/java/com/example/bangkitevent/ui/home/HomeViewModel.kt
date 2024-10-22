@@ -6,14 +6,19 @@ import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.bangkitevent.data.response.EventResponse
-import com.example.bangkitevent.data.response.ListEventsItem
-import com.example.bangkitevent.data.retrofit.ApiConfig
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.bangkitevent.data.remote.local.entity.EventEntity
+import com.example.bangkitevent.data.remote.local.repository.EventRepo
+import com.example.bangkitevent.data.remote.response.EventResponse
+import com.example.bangkitevent.data.remote.response.ListEventsItem
+import com.example.bangkitevent.data.remote.retrofit.ApiConfig
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class HomeViewModel(application: Application) : AndroidViewModel(application) {
+class HomeViewModel(private val eventRepo: EventRepo) : ViewModel() {
     companion object{
         private const val TAG = "HomeViewModel"
     }
@@ -46,18 +51,21 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                     response.body()?.let {
                         _listEventsItem.value = it.listEvents
                         Log.d(TAG, "onResponse: Success - ${it.listEvents}")
+
+                        // Save to local database
+                        saveEventsToDatabase(it.listEvents, false)
                     } ?: run {
                         Log.e(TAG, "onResponse: Failure - Response body is null")
                     }
                 } else {
                     Log.e(TAG, "onResponse: Failure - ${response.code()} - ${response.message()}")
-                    Toast.makeText(getApplication(), "Failed to Fetch API", Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(getApplication(), "Failed to Fetch API", Toast.LENGTH_SHORT).show()
                 }
             }
             override fun onFailure(call: Call<EventResponse>, t: Throwable) {
                 _isLoading.value = false
                 Log.e(TAG, "onFailure: ${t.message.toString()}")
-                Toast.makeText(getApplication(), "Failed to load events: ${t.message}", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(getApplication(), "Failed to load events: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -76,19 +84,29 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                     response.body()?.let {
                         _listEventsItemFinished.value = it.listEvents
                         Log.d(TAG, "onResponse: Success - ${it.listEvents}")
+
+                        // Save to local database
+                        saveEventsToDatabase(it.listEvents, true)
                     } ?: run {
                         Log.e(TAG, "onResponse: Failure - Response body is null")
                     }
                 } else {
                     Log.e(TAG, "onResponse: Failure - ${response.code()} - ${response.message()}")
-                    Toast.makeText(getApplication(), "Failed to Fetch API", Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(getApplication(), "Failed to Fetch API", Toast.LENGTH_SHORT).show()
                 }
             }
             override fun onFailure(call: Call<EventResponse>, t: Throwable) {
                 _isLoading.value = false
                 Log.e(TAG, "onFailure: ${t.message.toString()}")
-                Toast.makeText(getApplication(), "Failed to load events: ${t.message}", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(getApplication(), "Failed to load events: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
+    }
+
+    // save local
+    private fun saveEventsToDatabase(events: List<ListEventsItem>, isFinished: Boolean) {
+        viewModelScope.launch {
+            eventRepo.saveEventsToDatabase(events, isFinished)
+        }
     }
 }

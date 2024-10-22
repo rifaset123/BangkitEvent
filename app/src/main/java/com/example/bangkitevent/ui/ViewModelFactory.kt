@@ -9,8 +9,10 @@ import com.example.bangkitevent.ui.detail.DetailViewModel
 import com.example.bangkitevent.ui.favorite.FavoriteViewModel
 import com.example.bangkitevent.ui.finished.FinishedViewModel
 import com.example.bangkitevent.ui.home.HomeViewModel
+import com.example.bangkitevent.ui.settings.SettingPreferences
+import com.example.bangkitevent.ui.settings.SettingsViewModel
 
-class ViewModelFactory private constructor(private val eventRepo: EventRepo) :
+class ViewModelFactory private constructor(private val eventRepo: EventRepo, private val settingPreferences: SettingPreferences) :
     ViewModelProvider.NewInstanceFactory() {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -19,6 +21,7 @@ class ViewModelFactory private constructor(private val eventRepo: EventRepo) :
             modelClass.isAssignableFrom(DetailViewModel::class.java) -> DetailViewModel(eventRepo) as T
             modelClass.isAssignableFrom(HomeViewModel::class.java) -> HomeViewModel(eventRepo) as T
             modelClass.isAssignableFrom(FavoriteViewModel::class.java) -> FavoriteViewModel(eventRepo) as T
+            modelClass.isAssignableFrom(SettingsViewModel::class.java) -> SettingsViewModel(settingPreferences) as T
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
     }
@@ -28,7 +31,7 @@ class ViewModelFactory private constructor(private val eventRepo: EventRepo) :
         private var instance: ViewModelFactory? = null
         fun getInstance(context: Context): ViewModelFactory =
             instance ?: synchronized(this) {
-                instance ?: ViewModelFactory(Injection.provideRepository(context))
+                instance ?: ViewModelFactory(Injection.provideRepository(context), Injection.provideSettingPreferences(context))
             }.also { instance = it }
     }
 }

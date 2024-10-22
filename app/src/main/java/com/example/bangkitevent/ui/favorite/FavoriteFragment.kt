@@ -68,6 +68,13 @@ class FavoriteFragment : Fragment(){
             if (events != null) {
                 adapter.submitList(events)
                 Log.d("FavoriteFragment", "RecyclerView loaded with ${events.size} items")
+                if (events.isEmpty()){
+                    binding.noEventText.visibility = View.VISIBLE
+                    binding.eventHeader.visibility = View.GONE
+                } else {
+                    binding.noEventText.visibility = View.GONE
+                    binding.eventHeader.visibility = View.VISIBLE
+                }
             }
         })
 

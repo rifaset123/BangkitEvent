@@ -47,11 +47,12 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_upcoming, R.id.navigation_finished
+                R.id.navigation_home, R.id.navigation_upcoming, R.id.navigation_finished, R.id.navigation_favorite, R.id.navigation_settings
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -61,10 +62,12 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         val search = menu.findItem(R.id.menu_search)
         val searchView = search?.actionView as? SearchView
 
-        // search button gone in home fragment
+        // disable search button in home fragment, settings, fav
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
         navController.addOnDestinationChangedListener { _, destination, _ ->
             search?.isVisible = destination.id != R.id.navigation_home
+                    && destination.id != R.id.navigation_settings
+                    && destination.id != R.id.navigation_favorite
         }
         searchView?.let {
             it.queryHint = "Search Event"

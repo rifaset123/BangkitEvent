@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -19,6 +20,7 @@ import com.example.bangkitevent.ui.ViewModelFactory
 import com.example.bangkitevent.ui.detail.DetailActivity
 import com.example.bangkitevent.ui.detail.DetailActivity.Companion.EXTRA_ID
 import com.example.bangkitevent.ui.finished.FinishedViewModel
+import com.example.bangkitevent.ui.settings.SettingsViewModel
 import com.example.bangkitevent.utils.OnEventClickListener
 
 class HomeFragment : Fragment(), OnEventClickListener {
@@ -37,6 +39,11 @@ class HomeFragment : Fragment(), OnEventClickListener {
         val homeViewModel: HomeViewModel by viewModels {
             ViewModelFactory.getInstance(requireContext())
         }
+        val settingsModel: SettingsViewModel by viewModels {
+            ViewModelFactory.getInstance(requireContext())
+        }
+
+
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
@@ -70,6 +77,24 @@ class HomeFragment : Fragment(), OnEventClickListener {
             adapterUpcoming.submitList(limitedEvents)
             Log.d("UpcomingFragment", "RecyclerView loaded with ${limitedEvents.size} items")
         }
+
+        settingsModel.getThemeSettings().observe(viewLifecycleOwner) { isDarkModeActive ->
+            if (isDarkModeActive) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+        }
+
+        // obnserve theme
+//        homeViewModel.getThemeSettings().observe(viewLifecycleOwner) { isDarkModeActive: Boolean ->
+//            if (isDarkModeActive) {
+//                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+//            } else {
+//                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+//                switchTheme.isChecked = false
+//            }
+//        }
         return root
     }
 

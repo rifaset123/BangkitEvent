@@ -23,4 +23,23 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_favorite">Favorite</string>
     <string name="here_s_your_favorite_events">Here\'s your favorite Events</string>
+    <!-- Preference Titles -->
+    <string name="messages_header">Copyright</string>
+    <string name="modifier_header">Modifier</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="dark_title">Dark Mode</string>
+    <string name="dark_off">Enable Dark Mode</string>
+    <string name="dark_on">Disable Dark Mode</string>
+    <string name="reminder_title">Daily Reminder</string>
+    <string name="reminder_on">Disable daily notification
+    </string>
+    <string name="reminder_off">Enable daily notification</string>
+    <string name="header_settingsfragment">SettingsFragment</string>
+    <string name="title_settings">Settings</string>
+    <string name="event">You don\'t have any favorite Events</string>
 </resources>

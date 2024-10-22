@@ -26,4 +26,9 @@
         android:name="com.example.bangkitevent.ui.favorite.FavoriteFragment"
         android:label="@string/title_favorite"
         tools:layout="@layout/fragment_favorite" />
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:icon="@drawable/ic_settings"
+        android:name="com.example.bangkitevent.ui.settings.SettingsFragment"
+        android:label="@string/title_settings" />
 </navigation>

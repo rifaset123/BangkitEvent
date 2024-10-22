@@ -18,6 +18,9 @@ loggingInterceptor = "4.11.0"
 roomCompiler = "2.5.2"
 roomRuntime = "2.5.2"
 roomKtx = "2.5.2"
+preference = "1.2.1"
+datastorePreferences = "1.1.1"
+kotlinxCoroutinesCore = "1.7.3"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -38,6 +41,10 @@ converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomCompiler" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomKtx" }
+androidx-preference = { group = "androidx.preference", name = "preference", version.ref = "preference" }
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesCore" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

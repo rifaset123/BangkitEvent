@@ -7,12 +7,14 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.bangkitevent.data.remote.local.entity.EventEntity
 import com.example.bangkitevent.data.remote.local.repository.EventRepo
 import com.example.bangkitevent.data.remote.response.EventResponse
 import com.example.bangkitevent.data.remote.response.ListEventsItem
 import com.example.bangkitevent.data.remote.retrofit.ApiConfig
+import com.example.bangkitevent.ui.settings.SettingPreferences
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -109,4 +111,19 @@ class HomeViewModel(private val eventRepo: EventRepo) : ViewModel() {
             eventRepo.saveEventsToDatabase(events, isFinished)
         }
     }
+
+//    // settings theme
+//    // construktor ini tidak bisa membuat ViewModel secara langsung
+//    fun getThemeSettings(): LiveData<Boolean> {
+//        // membaca data dari dataStore
+//        return pref.getThemeSetting().asLiveData() // mengubah dari Flow ke LiveData
+//    }
+//
+//    fun saveThemeSetting(isDarkModeActive: Boolean) {
+//        // menjalankan coroutine pada ViewModel yang sudah aware dengan lifecycle.
+//        // sehingga coroutine akan otomatis dihapus ketika ViewModel dibersihkan
+//        viewModelScope.launch {
+//            pref.saveThemeSetting(isDarkModeActive)
+//        }
+//    }
 }

@@ -19,6 +19,15 @@ class SettingsViewModel(private val preferences: SettingPreferences) : ViewModel
         }
     }
 
+    // notif
+    fun getNotificationSettings() = preferences.getNotificationSetting().asLiveData()
+
+    fun saveNotificationSetting(isNotificationActive: Boolean) {
+        viewModelScope.launch {
+            preferences.saveNotificationSetting(isNotificationActive)
+        }
+    }
+
 //    class Factory(private val preferences: SettingPreferences) : ViewModelProvider.Factory {
 //        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
 //            if (modelClass.isAssignableFrom(SettingsViewModel::class.java)) {

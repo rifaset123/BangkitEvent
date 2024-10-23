@@ -1,10 +1,12 @@
 package com.example.bangkitevent
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
@@ -18,6 +20,8 @@ import com.example.bangkitevent.ui.upcoming.UpcomingFragment
 import com.example.bangkitevent.ui.upcoming.UpcomingFragment.Companion.EXTRA_QUERY
 import com.example.bangkitevent.ui.upcoming.UpcomingViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import android.Manifest
+import androidx.work.WorkManager
 
 class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
@@ -41,6 +45,8 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             adapter.submitList(events ?: emptyList())
             Log.d("MainActivityTest", "RecyclerView loaded with ${events?.size ?: 0} items")
         }
+
+
 
         val navView: BottomNavigationView = binding.navView
 

@@ -12,11 +12,11 @@
             app:defaultValue="Rifa Indra Setiawan"/>
 
         <ListPreference
-            app:defaultValue="reply"
+            app:defaultValue="Excellent"
             app:entries="@array/reply_entries"
             app:entryValues="@array/reply_values"
             app:key="reply"
-            app:title="@string/reply_title"
+            app:title="@string/rate_title"
             app:iconSpaceReserved="false"
             app:useSimpleSummaryProvider="true" />
 

@@ -39,6 +39,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
@@ -83,4 +84,11 @@ dependencies {
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
+
+    // work
+    implementation(libs.androidx.work.runtime)
+    implementation(libs.android.async.http)
+
+    implementation(libs.moshi.kotlin)
+    ksp(libs.moshi.kotlin.codegen)
 }

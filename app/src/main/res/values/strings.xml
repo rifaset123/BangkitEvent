@@ -29,7 +29,7 @@
 
     <!-- Messages Preferences -->
     <string name="signature_title">Signature</string>
-    <string name="reply_title">Default reply action</string>
+    <string name="rate_title">Rate this apps</string>
 
     <!-- Sync Preferences -->
     <string name="dark_title">Dark Mode</string>

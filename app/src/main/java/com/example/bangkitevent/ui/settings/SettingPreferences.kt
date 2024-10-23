@@ -16,10 +16,23 @@ class SettingPreferences private constructor(private val dataStore: DataStore<Pr
 
     // Menyimpan Data ke Preferences DataStore
     private val THEME_KEY = booleanPreferencesKey("theme_setting")
+    private val NOTIFICATION_KEY = booleanPreferencesKey("notification_setting")
 
     fun getThemeSetting(): Flow<Boolean> {
         return dataStore.data.map { preferences ->
             preferences[THEME_KEY] ?: true
+        }
+    }
+
+    // notif
+    fun getNotificationSetting(): Flow<Boolean> {
+        return dataStore.data.map { preferences ->
+            preferences[NOTIFICATION_KEY] ?: false
+        }
+    }
+    suspend fun saveNotificationSetting(isNotificationActive: Boolean) {
+        dataStore.edit { preferences ->
+            preferences[NOTIFICATION_KEY] = isNotificationActive
         }
     }
 

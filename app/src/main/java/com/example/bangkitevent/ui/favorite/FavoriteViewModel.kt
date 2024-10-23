@@ -5,8 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.bangkitevent.data.remote.local.entity.EventEntity
 import com.example.bangkitevent.data.remote.local.repository.EventRepo
+import com.example.bangkitevent.utils.AppExecutors
 
-class FavoriteViewModel(private val eventRepo: EventRepo) : ViewModel()  {
+class FavoriteViewModel(private val eventRepo: EventRepo, private val appExecutors: AppExecutors) : ViewModel()  {
     val favoriteEvents = eventRepo.getFavoriteEvents()
 
     private val _isLoading = MutableLiveData<Boolean>()
@@ -22,8 +23,10 @@ class FavoriteViewModel(private val eventRepo: EventRepo) : ViewModel()  {
     private fun observeFavoriteEvents() {
         _isLoading.value = true
         eventRepo.getFavoriteEvents().observeForever { events ->
-            _isLoading.value = false
-            _favoriteEventsEntity.value = events
+            appExecutors.mainThread.execute {
+                _isLoading.value = false
+                _favoriteEventsEntity.value = events
+            }
         }
     }
 }

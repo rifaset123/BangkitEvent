@@ -1,6 +1,7 @@
 package com.example.bangkitevent.data.remote.local.repository
 
 // untuk menyimpan status pengambilan data
+// gak kepake akhirnya hehe
 sealed class Result<out R> private constructor() {
     data class Success<out T>(val data: T) : Result<T>()
     data class Error(val error: String) : Result<Nothing>()

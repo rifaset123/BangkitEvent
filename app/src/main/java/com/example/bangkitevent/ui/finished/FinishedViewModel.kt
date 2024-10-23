@@ -56,21 +56,21 @@ class FinishedViewModel(private val eventRepo: EventRepo) : ViewModel() {
                             _storedDefault.value = it.listEvents
                         }
                         _listEventsItem.value = newListEventsItem ?: it.listEvents
-                        Log.d("wtest", "onResponse: Success - ${newListEventsItem ?: it.listEvents}")
+//                        Log.d("wtest", "onResponse: Success - ${newListEventsItem ?: it.listEvents}")
 
                         // Save to local database
 //                        saveEventsToDatabase(it.listEvents)
                     } ?: run {
-                        Log.e("wtest", "onResponse: Failure - Response body is null")
+//                        Log.e("wtest", "onResponse: Failure - Response body is null")
                     }
                 } else {
-                    Log.e("wtest", "onResponse: Failure - ${response.code()} - ${response.message()}")
+//                    Log.e("wtest", "onResponse: Failure - ${response.code()} - ${response.message()}")
 //                    Toast.makeText(getApplication(), "Failed to Fetch API", Toast.LENGTH_SHORT).show()
                 }
             }
             override fun onFailure(call: Call<EventResponse>, t: Throwable) {
                 _isLoading.value = false
-                Log.e("wtest", "onFailure: ${t.message.toString()}")
+//                Log.e("wtest", "onFailure: ${t.message.toString()}")
 //                Toast.makeText(getApplication(), "Failed to load events: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
@@ -78,7 +78,7 @@ class FinishedViewModel(private val eventRepo: EventRepo) : ViewModel() {
 
     fun searchEvents(query: String) {
         _isLoading.value = true
-        Log.d("QueryTest", "Fetching event details for ID: $query")
+//        Log.d("QueryTest", "Fetching event details for ID: $query")
 
         // call API
         val client = ApiConfig.getApiService().searchEvents(query)
@@ -86,7 +86,6 @@ class FinishedViewModel(private val eventRepo: EventRepo) : ViewModel() {
             override fun onResponse(call: Call<EventResponse>, response: Response<EventResponse>) {
                 _isLoading.value = false
                 _listEventsItem.value = emptyList() // clear data
-                Log.d("QueryTest", "API response received")
 
                 // check successfully response
                 if (response.isSuccessful) {
@@ -95,30 +94,23 @@ class FinishedViewModel(private val eventRepo: EventRepo) : ViewModel() {
                         _listEventsItem.value = eventResponse.listEvents
                         showEvents(eventResponse.listEvents)
 
-                        Log.d("QueryTest", "onResponse: Success - ${eventResponse.listEvents.size}")
+//                        Log.d("QueryTest", "onResponse: Success - ${eventResponse.listEvents.size}")
 
                     } ?: run {
-                        Log.e("QueryTest", "onResponse: Failure - Response body is null")
+//                        Log.e("QueryTest", "onResponse: Failure - Response body is null")
                     }
                 } else {
                     // Handle error response
-                    Log.e("QueryTest", "onResponse: Failure - ${response.code()} - ${response.message()}")
+//                    Log.e("QueryTest", "onResponse: Failure - ${response.code()} - ${response.message()}")
 //                    Toast.makeText(getApplication(), "Failed to Fetch API", Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<EventResponse>, t: Throwable) {
                 _isLoading.value = false
-                Log.e("QueryTest", "onFailure: ${t.message}")
+//                Log.e("QueryTest", "onFailure: ${t.message}")
 //                Toast.makeText(getApplication(), "Failed to load events: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
     }
-
-//    // save local
-//    private fun saveEventsToDatabase(events: List<ListEventsItem>) {
-//        viewModelScope.launch {
-//            eventRepo.saveEventsToDatabase(events)
-//        }
-//    }
 }

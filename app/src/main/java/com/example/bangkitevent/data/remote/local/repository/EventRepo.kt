@@ -22,45 +22,6 @@ class EventRepo  private constructor(
     private val result = MediatorLiveData<Result<List<EventEntity>>>()
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
-    // LiveData Builder
-//    fun getEvents(): LiveData<Result<List<EventEntity>>> = liveData{
-//        emit(Result.Loading) // bukan merupakan LiveData, gunakan fungsi emit
-//        val client = apiService.getEvents() // Mengambil dari network dengan ApiService
-//
-//        try {
-//            val response = client.execute()
-//            if (response.isSuccessful) {
-//                val articles = response.body()?.listEvents ?: emptyList()
-//
-//                val newsList = articles.map { article ->
-//                    val isBookmarked = newsDao.isNewsBookmarked(article.id ?: "")
-//                    EventEntity(
-//                        article.id ?: "",
-//                        article.name ?: "",
-//                        article.description ?: "",
-//                        article.mediaCover ?: "",
-//                        article.quota ?: 0,
-//                        article.beginTime ?: "",
-//                        article.description ?: "",
-//                        article.link ?: "",
-//                        isBookmarked
-//
-//                    )
-//                }
-//                Log.d("EventRepo", "getHeadlineNews: $newsList")
-//                newsDao.deleteAll()
-//                newsDao.insertEvent(newsList)
-//            } else {
-//                emit(Result.Error("Failed to fetch data"))
-//            }
-//        } catch (e: Exception) {
-//            Log.d("EventRepo", "getHeadlineNews: ${e.message.toString()} ")
-//            emit(Result.Error(e.message.toString()))
-//        }
-//        val localData: LiveData<Result<List<EventEntity>>> = newsDao.getNews().map { Result.Success(it) }
-//        emitSource(localData) // LiveData, gunakan fungsi emitSource.
-//    }
-
 
     // bookmark feature
     fun getFavoriteEvents(): LiveData<List<EventEntity>> {

@@ -1,6 +1,8 @@
 package com.example.bangkitevent.ui.settings
 
 import android.Manifest
+import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -56,7 +58,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
         switchTheme?.setOnPreferenceChangeListener { _, newValue ->
             val isDarkModeActive = newValue as Boolean
             settingsViewModel.saveThemeSetting(isDarkModeActive)
-            Log.d("SettingsFragment", "onPreferenceChange: $isDarkModeActive")
             true
         }
         settingsViewModel.getThemeSettings().observe(viewLifecycleOwner) { isDarkModeActive ->
@@ -85,12 +86,15 @@ class SettingsFragment : PreferenceFragmentCompat() {
         dailyReminder?.setOnPreferenceChangeListener { _, newValue ->
             val isReminderActive = newValue as Boolean
             if (isReminderActive) {
-                startPeriodicTask()
-                Toast.makeText(requireActivity(), "Daily Reminder is now activated", Toast.LENGTH_SHORT).show()
+                if (isInternetAvailable()) {
+                    startPeriodicTask()
+                    Toast.makeText(requireActivity(), "Daily Reminder is now activated", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(requireActivity(), "Internet is not available. Cannot activate Daily Reminder.", Toast.LENGTH_SHORT).show()
+                }
             } else {
                 cancelPeriodicTask()
             }
-            Log.d("SettingsFragment", "onPreferenceChange: $isReminderActive")
             true
         }
     }
@@ -110,7 +114,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
-        periodicWorkRequest = PeriodicWorkRequest.Builder(DailyWorker::class.java, 1, TimeUnit.DAYS)
+        periodicWorkRequest = PeriodicWorkRequest.Builder(DailyWorker::class.java, 1, TimeUnit.DAYS) // perhari
             .setConstraints(constraints)
             .build()
         workManager.enqueue(periodicWorkRequest)
@@ -118,5 +122,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     private fun cancelPeriodicTask() {
         workManager.cancelWorkById(periodicWorkRequest.id)
+    }
+
+    private fun isInternetAvailable(): Boolean {
+        val connectivityManager = requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = connectivityManager.activeNetworkInfo
+        return activeNetwork != null && activeNetwork.isConnected
     }
 }

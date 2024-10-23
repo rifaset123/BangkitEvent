@@ -56,7 +56,7 @@ class DetailActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, ViewModelFactory.getInstance(this)).get(DetailViewModel::class.java)
 
         // get event ID from intent
-        Log.d("DetailActivityTest", "Getting event ID from intent ${intent?.getStringExtra(EXTRA_ID)}")
+//        Log.d("DetailActivityTest", "Getting event ID from intent ${intent?.getStringExtra(EXTRA_ID)}")
         val eventId = intent?.getStringExtra(EXTRA_ID)
 
         // fetch event details
@@ -120,7 +120,7 @@ class DetailActivity : AppCompatActivity() {
 
                 // Observe favorite status ganti ikon
                 viewModel.favoriteStatus.observe(this) { isFavorite ->
-                    Log.d("DetailActivity", "Favorite status for event $eventId: $isFavorite")
+//                    Log.d("DetailActivity", "Favorite status for event $eventId: $isFavorite")
                     if (isFavorite) {
                         favorite.setImageDrawable(ContextCompat.getDrawable(favorite.context, R.drawable.ic_favorite_24))
                     } else {
@@ -128,7 +128,7 @@ class DetailActivity : AppCompatActivity() {
                     }
                 }
             } ?: run {
-                Log.d("DetailActivityTESTT", "Event not found")
+//                Log.d("DetailActivityTESTT", "Event not found")
             }
         }
     }

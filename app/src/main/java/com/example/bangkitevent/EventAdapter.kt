@@ -18,12 +18,10 @@ class EventAdapter(private val listener: OnEventClickListener) : ListAdapter<Lis
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ListEventsItem>() {
             override fun areItemsTheSame(oldItem: ListEventsItem, newItem: ListEventsItem): Boolean {
                 val result = oldItem == newItem
-                Log.d("EventAdapter", "areItemsTheSame: $result")
                 return result
             }
             override fun areContentsTheSame(oldItem: ListEventsItem, newItem: ListEventsItem): Boolean {
                 val result = oldItem == newItem
-                Log.d("EventAdapter", "areContentsTheSame: $result")
                 return result
             }
         }

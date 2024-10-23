@@ -52,21 +52,21 @@ class HomeViewModel(private val eventRepo: EventRepo) : ViewModel() {
                 if (response.isSuccessful) {
                     response.body()?.let {
                         _listEventsItem.value = it.listEvents
-                        Log.d(TAG, "onResponse: Success - ${it.listEvents}")
+//                        Log.d(TAG, "onResponse: Success - ${it.listEvents}")
 
                         // Save to local database
                         saveEventsToDatabase(it.listEvents, false)
                     } ?: run {
-                        Log.e(TAG, "onResponse: Failure - Response body is null")
+//                        Log.e(TAG, "onResponse: Failure - Response body is null")
                     }
                 } else {
-                    Log.e(TAG, "onResponse: Failure - ${response.code()} - ${response.message()}")
-//                    Toast.makeText(getApplication(), "Failed to Fetch API", Toast.LENGTH_SHORT).show()
+//                    Log.e(TAG, "onResponse: Failure - ${response.code()} - ${response.message()}")
+//                    Toast.makeText(, "Failed to Fetch API", Toast.LENGTH_SHORT).show()
                 }
             }
             override fun onFailure(call: Call<EventResponse>, t: Throwable) {
                 _isLoading.value = false
-                Log.e(TAG, "onFailure: ${t.message.toString()}")
+//                Log.e(TAG, "onFailure: ${t.message.toString()}")
 //                Toast.makeText(getApplication(), "Failed to load events: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
@@ -90,16 +90,17 @@ class HomeViewModel(private val eventRepo: EventRepo) : ViewModel() {
                         // Save to local database
                         saveEventsToDatabase(it.listEvents, true)
                     } ?: run {
-                        Log.e(TAG, "onResponse: Failure - Response body is null")
+//                        Log.e(TAG, "onResponse: Failure - Response body is null")
+
                     }
                 } else {
-                    Log.e(TAG, "onResponse: Failure - ${response.code()} - ${response.message()}")
+//                    Log.e(TAG, "onResponse: Failure - ${response.code()} - ${response.message()}")
 //                    Toast.makeText(getApplication(), "Failed to Fetch API", Toast.LENGTH_SHORT).show()
                 }
             }
             override fun onFailure(call: Call<EventResponse>, t: Throwable) {
                 _isLoading.value = false
-                Log.e(TAG, "onFailure: ${t.message.toString()}")
+//                Log.e(TAG, "onFailure: ${t.message.toString()}")
 //                Toast.makeText(getApplication(), "Failed to load events: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
@@ -111,19 +112,4 @@ class HomeViewModel(private val eventRepo: EventRepo) : ViewModel() {
             eventRepo.saveEventsToDatabase(events, isFinished)
         }
     }
-
-//    // settings theme
-//    // construktor ini tidak bisa membuat ViewModel secara langsung
-//    fun getThemeSettings(): LiveData<Boolean> {
-//        // membaca data dari dataStore
-//        return pref.getThemeSetting().asLiveData() // mengubah dari Flow ke LiveData
-//    }
-//
-//    fun saveThemeSetting(isDarkModeActive: Boolean) {
-//        // menjalankan coroutine pada ViewModel yang sudah aware dengan lifecycle.
-//        // sehingga coroutine akan otomatis dihapus ketika ViewModel dibersihkan
-//        viewModelScope.launch {
-//            pref.saveThemeSetting(isDarkModeActive)
-//        }
-//    }
 }

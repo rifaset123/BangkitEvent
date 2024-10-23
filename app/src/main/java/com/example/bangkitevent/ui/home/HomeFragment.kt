@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -68,14 +69,14 @@ class HomeFragment : Fragment(), OnEventClickListener {
         homeViewModel.listEventsItem.observe(viewLifecycleOwner) { events ->
             val limitedEvents = events?.take(5) ?: emptyList() // max 5 item
             adapter.submitList(limitedEvents)
-            Log.d("UpcomingFragment", "RecyclerView loaded with ${limitedEvents.size} items")
+//            Log.d("HomeFragment", "RecyclerView loaded with ${limitedEvents.size} items")
         }
 
         // observe finished listEventsItem
         homeViewModel.listEventsItemFinished.observe(viewLifecycleOwner) { events ->
             val limitedEvents = events?.take(5) ?: emptyList() // max 5 item
             adapterUpcoming.submitList(limitedEvents)
-            Log.d("UpcomingFragment", "RecyclerView loaded with ${limitedEvents.size} items")
+//            Log.d("HomeFragment", "RecyclerView loaded with ${limitedEvents.size} items")
         }
 
         settingsModel.getThemeSettings().observe(viewLifecycleOwner) { isDarkModeActive ->
@@ -85,16 +86,6 @@ class HomeFragment : Fragment(), OnEventClickListener {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }
         }
-
-        // obnserve theme
-//        homeViewModel.getThemeSettings().observe(viewLifecycleOwner) { isDarkModeActive: Boolean ->
-//            if (isDarkModeActive) {
-//                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-//            } else {
-//                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-//                switchTheme.isChecked = false
-//            }
-//        }
         return root
     }
 
@@ -105,15 +96,15 @@ class HomeFragment : Fragment(), OnEventClickListener {
 
     override fun onEventClick(event: ListEventsItem) {
         // Handle the click event
-        Log.d("FinishedFragmentClickTest", "Event clicked: ${event.id}")
+//        Log.d("FinishedFragmentClickTest", "Event clicked: ${event.id}")
         event.id?.let { id ->
-            Log.d("FinishedFragmentClickTest", "Navigating to DetailActivity with Event ID: $id")
+//            Log.d("FinishedFragmentClickTest", "Navigating to DetailActivity with Event ID: $id")
             val intentToDetail = Intent(requireActivity(), DetailActivity::class.java).apply {
                 putExtra(EXTRA_ID, id)
             }
             startActivity(intentToDetail)
         } ?: run {
-            Log.e("FinishedFragmentClickTest", "Event ID is null")
+            Toast.makeText(requireContext(), "Event is null", Toast.LENGTH_SHORT).show()
         }
     }
 }

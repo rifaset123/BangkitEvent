@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -75,10 +76,10 @@ class FinishedFragment : Fragment(), OnEventClickListener {
         // observe listEventsItem
         if (arguments?.containsKey(EXTRA_QUERY2) == true) {
             val query = arguments?.getString(EXTRA_QUERY2)
-            Log.d("FinishedFragment", "Search query: $query")
+//            Log.d("FinishedFragment", "Search query: $query")
             if (query == "%default") {
                 observeStoredData(finishedViewModel, adapter)
-                Log.d("UpcomingFragment", "RecyclerView loaded with stored data")
+//                Log.d("UpcomingFragment", "RecyclerView loaded with stored data")
             } else {
                 if (query != null) {
                     finishedViewModel.searchEvents(query)
@@ -87,7 +88,7 @@ class FinishedFragment : Fragment(), OnEventClickListener {
             }
         }else{
             observeListEventsItem(finishedViewModel, adapter)
-            Log.d("FinishedFragmentTest", "RecyclerView loaded ")
+//            Log.d("FinishedFragmentTest", "RecyclerView loaded ")
         }
 
         return root

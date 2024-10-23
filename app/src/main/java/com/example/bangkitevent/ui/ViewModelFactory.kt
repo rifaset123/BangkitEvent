@@ -11,6 +11,7 @@ import com.example.bangkitevent.ui.finished.FinishedViewModel
 import com.example.bangkitevent.ui.home.HomeViewModel
 import com.example.bangkitevent.ui.settings.SettingPreferences
 import com.example.bangkitevent.ui.settings.SettingsViewModel
+import com.example.bangkitevent.utils.AppExecutors
 
 class ViewModelFactory private constructor(private val eventRepo: EventRepo, private val settingPreferences: SettingPreferences) :
     ViewModelProvider.NewInstanceFactory() {
@@ -20,11 +21,13 @@ class ViewModelFactory private constructor(private val eventRepo: EventRepo, pri
             modelClass.isAssignableFrom(FinishedViewModel::class.java) -> FinishedViewModel(eventRepo) as T
             modelClass.isAssignableFrom(DetailViewModel::class.java) -> DetailViewModel(eventRepo) as T
             modelClass.isAssignableFrom(HomeViewModel::class.java) -> HomeViewModel(eventRepo) as T
-            modelClass.isAssignableFrom(FavoriteViewModel::class.java) -> FavoriteViewModel(eventRepo) as T
+            modelClass.isAssignableFrom(FavoriteViewModel::class.java) -> favoriteViewModel as T
             modelClass.isAssignableFrom(SettingsViewModel::class.java) -> SettingsViewModel(settingPreferences) as T
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
     }
+    private val appExecutors = AppExecutors()
+    private val favoriteViewModel = FavoriteViewModel(eventRepo, appExecutors)
 
     companion object {
         @Volatile

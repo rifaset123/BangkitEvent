@@ -54,18 +54,16 @@ class UpcomingViewModel(application: Application) : AndroidViewModel(application
                             _storedDefault.value = it.listEvents
                         }
                         _listEventsItem.value = newListEventsItem ?: it.listEvents
-                        Log.d("wwtest", "onResponse: Success - ${newListEventsItem ?: it.listEvents}")
                     } ?: run {
-                        Log.e(TAG, "onResponse: Failure - Response body is null")
+                        // make toast
+                        Toast.makeText(getApplication(), "No events found", Toast.LENGTH_SHORT).show()
                     }
                 } else {
-                    Log.e(TAG, "onResponse: Failure - ${response.code()} - ${response.message()}")
                     Toast.makeText(getApplication(), "Failed to Fetch API", Toast.LENGTH_SHORT).show()
                 }
             }
             override fun onFailure(call: Call<EventResponse>, t: Throwable) {
                 _isLoading.value = false
-                Log.e(TAG, "onFailure: ${t.message.toString()}")
                 Toast.makeText(getApplication(), "Failed to load events: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
@@ -73,8 +71,6 @@ class UpcomingViewModel(application: Application) : AndroidViewModel(application
 
     fun searchEvents(query: String) {
         _isLoading.value = true
-        Log.d("QueryTest", "Fetching event details for ID: $query")
-
         // call API
         val client = ApiConfig.getApiService().searchEvents(query)
         client.enqueue(object : Callback<EventResponse> {
@@ -89,21 +85,17 @@ class UpcomingViewModel(application: Application) : AndroidViewModel(application
                         // store the value to LiveData _detailEvent
                         _listEventsItem.value = eventResponse.listEvents
                         showEvents(eventResponse.listEvents)
-                        Log.d("QueryTest", "onResponse: Success - ${eventResponse.listEvents.size}")
-
                     } ?: run {
-                        Log.e("QueryTest", "onResponse: Failure - Response body is null")
+                        Toast.makeText(getApplication(), "No events found", Toast.LENGTH_SHORT).show()
                     }
                 } else {
                     // Handle error response
-                    Log.e("QueryTest", "onResponse: Failure - ${response.code()} - ${response.message()}")
                     Toast.makeText(getApplication(), "Failed to Fetch API", Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<EventResponse>, t: Throwable) {
                 _isLoading.value = false
-                Log.e("QueryTest", "onFailure: ${t.message}")
                 Toast.makeText(getApplication(), "Failed to load events: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })

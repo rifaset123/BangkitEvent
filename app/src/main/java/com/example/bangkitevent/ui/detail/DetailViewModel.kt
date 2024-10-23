@@ -37,7 +37,7 @@ class DetailViewModel(private val eventRepo: EventRepo) : ViewModel() {
 
     fun fetchEventDetail(eventID: String) {
         _isLoading.value = true
-        Log.d("DetailViewModel", "Fetching event details for ID: $eventID")
+//        Log.d("DetailViewModel", "Fetching event details for ID: $eventID")
 
         // call API
         val client = ApiConfig.getApiService().getDetailEvent(eventID)
@@ -47,24 +47,20 @@ class DetailViewModel(private val eventRepo: EventRepo) : ViewModel() {
                 response: Response<EventIDResponse>
             ) {
                 _isLoading.value = false
-                Log.d("DetailViewModel", "API response received")
+//                Log.d("DetailViewModel", "API response received")
 
                 // check if response is successful
                 if (response.isSuccessful) {
                     response.body()?.let { eventID ->
                         // store the value to LiveData _detailEvent
                         _detailEvent.value = eventID.event
-                        Log.d("DetailViewModel", "onResponse: Success - $eventID")
+//                        Log.d("DetailViewModel", "onResponse: Success - $eventID")
                     } ?: run {
-                        Log.e("DetailViewModel", "onResponse: Failure - Response body is null")
+//                        Log.e("DetailViewModel", "onResponse: Failure - Response body is null")
                     }
                 } else {
                     // Handle error response
                     _error.value = "Error ${response.code()}: ${response.message()}"
-                    Log.e(
-                        "DetailViewModel",
-                        "onResponse: Failure - ${response.code()} - ${response.message()}"
-                    )
 //                    Toast.makeText(getApplication(), "Failed to Fetch API", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -72,7 +68,7 @@ class DetailViewModel(private val eventRepo: EventRepo) : ViewModel() {
             override fun onFailure(call: Call<EventIDResponse>, t: Throwable) {
                 _isLoading.value = false
                 _error.value = t.message ?: "Unknown error"
-                Log.e("DetailViewModel", "onFailure: ${t.message}")
+//                Log.e("DetailViewModel", "onFailure: ${t.message}")
 //                Toast.makeText(getApplication(), "Failed to load events: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })

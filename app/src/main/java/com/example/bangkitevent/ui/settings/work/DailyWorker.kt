@@ -96,7 +96,7 @@ class DailyWorker(context: Context, workerParams: WorkerParameters) : Worker(con
     }
 
     private fun showNotification(title: String, description: String?) {
-        Log.d("DailyWorker", "Showing notification with title: $title and description: $description")
+//        Log.d("DailyWorker", "Showing notification with title: $title and description: $description")
         val notificationManager = applicationContext.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         val notification: NotificationCompat.Builder = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_notifications_24)

@@ -43,7 +43,6 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         adapter = EventAdapter(upcomingFragment)
         upcomingViewModel.listEventsItem.observe(this) { events ->
             adapter.submitList(events ?: emptyList())
-            Log.d("MainActivityTest", "RecyclerView loaded with ${events?.size ?: 0} items")
         }
 
 
@@ -85,7 +84,6 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     override fun onQueryTextSubmit(query: String?): Boolean {
         query?.let {
-            Log.d("SearchTestMain", "Search query submitted: $it")
             try {
                 val navController = findNavController(R.id.nav_host_fragment_activity_main)
                 val bundle = Bundle().apply {
@@ -98,19 +96,15 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                     R.id.navigation_home -> navController.navigate(R.id.navigation_home, bundle)
                     R.id.navigation_upcoming -> navController.navigate(R.id.navigation_upcoming, bundle)
                     R.id.navigation_finished -> navController.navigate(R.id.navigation_finished, bundle2)
-                    else -> Log.e("SearchTestMain", "Unknown destination")
+                    else -> Toast.makeText(this, "Unknown destination", Toast.LENGTH_SHORT).show()
                 }
                 // Hide the keyboard
                 val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
                 currentFocus?.clearFocus()
+            } catch (_: Exception) {
 
-                Log.d("SearchTestMain", "Search event triggered successfully")
-            } catch (e: Exception) {
-                Log.e("SearchTestMain", "Error triggering search event", e)
             }
-        } ?: run {
-            Log.d("SearchTestMain", "Search query is null")
         }
         Toast.makeText(this, "Searchhing $query", Toast.LENGTH_SHORT).show()
         return true
@@ -118,7 +112,6 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     override fun onQueryTextChange(query: String?): Boolean {
         if (query.isNullOrEmpty()) {
-            Log.d("SearchTestMain", "Search query is empty or null")
             // Handler when query is empty return to original event
             val navController = findNavController(R.id.nav_host_fragment_activity_main)
             val bundle = Bundle().apply {
@@ -131,7 +124,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 R.id.navigation_home -> navController.navigate(R.id.navigation_home, bundle)
                 R.id.navigation_upcoming -> navController.navigate(R.id.navigation_upcoming, bundle)
                 R.id.navigation_finished -> navController.navigate(R.id.navigation_finished, bundle2)
-                else -> Log.e("SearchTestMain", "Unknown destination")
+                else -> Toast.makeText(this,"unknown destination", Toast.LENGTH_SHORT).show()
             }
             Toast.makeText(this, "Return to default Value", Toast.LENGTH_SHORT).show()
         }

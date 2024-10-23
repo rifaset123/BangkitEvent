@@ -27,14 +27,4 @@ class SettingsViewModel(private val preferences: SettingPreferences) : ViewModel
             preferences.saveNotificationSetting(isNotificationActive)
         }
     }
-
-//    class Factory(private val preferences: SettingPreferences) : ViewModelProvider.Factory {
-//        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-//            if (modelClass.isAssignableFrom(SettingsViewModel::class.java)) {
-//                @Suppress("UNCHECKED_CAST")
-//                return SettingsViewModel(preferences) as T
-//            }
-//            throw IllegalArgumentException("Unknown ViewModel class")
-//        }
-//    }
 }

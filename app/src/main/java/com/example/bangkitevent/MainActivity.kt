@@ -1,12 +1,9 @@
 package com.example.bangkitevent
 
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
@@ -20,8 +17,6 @@ import com.example.bangkitevent.ui.upcoming.UpcomingFragment
 import com.example.bangkitevent.ui.upcoming.UpcomingFragment.Companion.EXTRA_QUERY
 import com.example.bangkitevent.ui.upcoming.UpcomingViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import android.Manifest
-import androidx.work.WorkManager
 
 class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
@@ -103,10 +98,12 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
                 currentFocus?.clearFocus()
             } catch (_: Exception) {
-
+                Toast.makeText(this, "Search failed", Toast.LENGTH_SHORT).show()
             }
+        } ?: run {
+            Toast.makeText(this, "No results found for $query", Toast.LENGTH_SHORT).show()
         }
-        Toast.makeText(this, "Searchhing $query", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Searching $query", Toast.LENGTH_SHORT).show()
         return true
     }
 

@@ -8,7 +8,6 @@ import com.example.bangkitevent.data.remote.local.repository.EventRepo
 import com.example.bangkitevent.utils.AppExecutors
 
 class FavoriteViewModel(private val eventRepo: EventRepo, private val appExecutors: AppExecutors) : ViewModel()  {
-    val favoriteEvents = eventRepo.getFavoriteEvents()
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading

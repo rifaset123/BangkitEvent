@@ -1,20 +1,14 @@
 package com.example.bangkitevent.ui.home
 
-import android.app.Application
 import android.util.Log
-import android.widget.Toast
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.bangkitevent.data.remote.local.entity.EventEntity
 import com.example.bangkitevent.data.remote.local.repository.EventRepo
 import com.example.bangkitevent.data.remote.response.EventResponse
 import com.example.bangkitevent.data.remote.response.ListEventsItem
 import com.example.bangkitevent.data.remote.retrofit.ApiConfig
-import com.example.bangkitevent.ui.settings.SettingPreferences
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -27,6 +21,10 @@ class HomeViewModel(private val eventRepo: EventRepo) : ViewModel() {
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
+
+    private val _isLoading2 = MutableLiveData<Boolean>()
+    val isLoading2: LiveData<Boolean> = _isLoading2
+
 
     private val _listEventsItem = MutableLiveData<List<ListEventsItem>?>()
     val listEventsItem: LiveData<List<ListEventsItem>?> = _listEventsItem
@@ -74,14 +72,14 @@ class HomeViewModel(private val eventRepo: EventRepo) : ViewModel() {
 
     // search API with id
     private fun showFinishedEvents(){
-        _isLoading.value = true
+        _isLoading2.value = true
         val client = ApiConfig.getApiService().getFinishedEvents()
         client.enqueue(object : Callback<EventResponse> {
             override fun onResponse(
                 call: Call<EventResponse>,
                 response: Response<EventResponse>
             ) {
-                _isLoading.value = false
+                _isLoading2.value = false
                 if (response.isSuccessful) {
                     response.body()?.let {
                         _listEventsItemFinished.value = it.listEvents
@@ -99,7 +97,7 @@ class HomeViewModel(private val eventRepo: EventRepo) : ViewModel() {
                 }
             }
             override fun onFailure(call: Call<EventResponse>, t: Throwable) {
-                _isLoading.value = false
+                _isLoading2.value = false
 //                Log.e(TAG, "onFailure: ${t.message.toString()}")
 //                Toast.makeText(getApplication(), "Failed to load events: ${t.message}", Toast.LENGTH_SHORT).show()
             }

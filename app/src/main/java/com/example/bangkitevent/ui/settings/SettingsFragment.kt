@@ -5,7 +5,6 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -14,13 +13,10 @@ import androidx.fragment.app.viewModels
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
 import androidx.work.Constraints
-import androidx.work.Data.Builder
-import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequest
 import androidx.work.PeriodicWorkRequest
 import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import com.example.bangkitevent.R
 import com.example.bangkitevent.ui.ViewModelFactory
@@ -86,6 +82,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
         dailyReminder?.setOnPreferenceChangeListener { _, newValue ->
             val isReminderActive = newValue as Boolean
             if (isReminderActive) {
+                if (Build.VERSION.SDK_INT >= 33) {
+                    requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                }
                 if (isInternetAvailable()) {
                     startPeriodicTask()
                     Toast.makeText(requireActivity(), "Daily Reminder is now activated", Toast.LENGTH_SHORT).show()
@@ -100,6 +99,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     }
 
     // hanya untuk testing bahwa notifikasi berjalan
+    @Suppress("unused")
     private fun startOneTimeTask() {
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)

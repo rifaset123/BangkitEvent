@@ -20,10 +20,6 @@ class UpcomingViewModel(application: Application) : AndroidViewModel(application
     }
     val text: LiveData<String> = _text
 
-    companion object{
-        private const val TAG = "MainViewModel"
-    }
-
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
@@ -72,7 +68,7 @@ class UpcomingViewModel(application: Application) : AndroidViewModel(application
     fun searchEvents(query: String) {
         _isLoading.value = true
         // call API
-        val client = ApiConfig.getApiService().searchEvents(query)
+        val client = ApiConfig.getApiService().searchUpcoming(query)
         client.enqueue(object : Callback<EventResponse> {
             override fun onResponse(call: Call<EventResponse>, response: Response<EventResponse>) {
                 _isLoading.value = false

@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -98,7 +97,7 @@ class FinishedFragment : Fragment(), OnEventClickListener {
         // observe listEventsItem
         finishedViewModel.listEventsItem.observe(viewLifecycleOwner) { events ->
             adapter.submitList(events ?: emptyList())
-            Log.d("UpcomingFragment", "RecyclerView loaded with ${events?.size ?: 0} items")
+//            Log.d("UpcomingFragment", "RecyclerView loaded with ${events?.size ?: 0} items")
         }
     }
 
@@ -107,7 +106,7 @@ class FinishedFragment : Fragment(), OnEventClickListener {
         // observe listEventsItem
         finishedViewModel.storedDefault.observe(viewLifecycleOwner) { events ->
             adapter.submitList(events ?: emptyList())
-            Log.d("UpcomingFragment", "RecyclerView loaded with ${events?.size ?: 0} items")
+//            Log.d("UpcomingFragment", "RecyclerView loaded with ${events?.size ?: 0} items")
         }
     }
 

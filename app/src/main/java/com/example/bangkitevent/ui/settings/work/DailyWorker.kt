@@ -1,5 +1,6 @@
 package com.example.bangkitevent.ui.settings.work
 
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
@@ -23,11 +24,10 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import cz.msebera.android.httpclient.Header
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import java.text.DecimalFormat
 
 class DailyWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams)  {
 
-    private var resultStatus: Result? = null
+//    private var resultStatus: Result? = null
 
 
     companion object {
@@ -95,6 +95,7 @@ class DailyWorker(context: Context, workerParams: WorkerParameters) : Worker(con
         )
     }
 
+    @SuppressLint("ObsoleteSdkInt")
     private fun showNotification(title: String, description: String?) {
 //        Log.d("DailyWorker", "Showing notification with title: $title and description: $description")
         val notificationManager = applicationContext.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
@@ -108,6 +109,8 @@ class DailyWorker(context: Context, workerParams: WorkerParameters) : Worker(con
             val channel = NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH)
             notification.setChannelId(CHANNEL_ID)
             notificationManager.createNotificationChannel(channel)
+        } else {
+            notification.priority = NotificationCompat.PRIORITY_HIGH
         }
         notificationManager.notify(NOTIFICATION_ID, notification.build())
     }

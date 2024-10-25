@@ -18,7 +18,7 @@ class ViewModelFactory private constructor(private val eventRepo: EventRepo, pri
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when {
-            modelClass.isAssignableFrom(FinishedViewModel::class.java) -> FinishedViewModel(eventRepo) as T
+            modelClass.isAssignableFrom(FinishedViewModel::class.java) -> FinishedViewModel() as T
             modelClass.isAssignableFrom(DetailViewModel::class.java) -> DetailViewModel(eventRepo) as T
             modelClass.isAssignableFrom(HomeViewModel::class.java) -> HomeViewModel(eventRepo) as T
             modelClass.isAssignableFrom(FavoriteViewModel::class.java) -> favoriteViewModel as T
@@ -26,7 +26,7 @@ class ViewModelFactory private constructor(private val eventRepo: EventRepo, pri
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
     }
-    private val appExecutors = AppExecutors()
+    val appExecutors = AppExecutors()
     private val favoriteViewModel = FavoriteViewModel(eventRepo, appExecutors)
 
     companion object {

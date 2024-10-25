@@ -1,3 +1,5 @@
+@file:Suppress("unused", "unused")
+
 package com.example.bangkitevent.utils
 
 import android.os.Handler

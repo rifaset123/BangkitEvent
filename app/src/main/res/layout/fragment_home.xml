@@ -7,48 +7,67 @@
     android:layout_height="match_parent"
     android:fillViewport="true">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/tvDicodingEvent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/dicoding_event"
             android:textSize="26sp"
+            app:layout_constraintTop_toTopOf="parent"
             android:textAlignment="center"
             android:textStyle="bold"
             android:padding="16dp"/>
 
         <TextView
+            android:id="@+id/tvFinishedEvent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="16dp"
             android:text="@string/finished_events"
             android:textSize="18sp"
-            android:padding="16dp"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvDicodingEvent" />
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cardView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardElevation="4dp"
+            android:layout_margin="8dp"
             app:cardCornerRadius="8dp"
-            android:layout_margin="8dp">
+            app:cardElevation="4dp"
+            app:layout_constraintTop_toBottomOf="@+id/tvFinishedEvent"
+            tools:layout_editor_absoluteX="8dp">
+
+            <ProgressBar
+                android:id="@+id/progressBar32"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewUpcomingEvents"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:listitem="@layout/item_card_view" />
+                tools:listitem="" />
 
         </androidx.cardview.widget.CardView>
 
         <TextView
+            android:id="@+id/tvUpcomingEvent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="16dp"
             android:text="@string/upcoming_events"
             android:textSize="18sp"
-            android:padding="16dp"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView2" />
 
         <ProgressBar
             android:id="@+id/progressBar3"
@@ -56,13 +75,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/recyclerViewFinishedEvents"
+            app:layout_constraintTop_toTopOf="@+id/recyclerViewFinishedEvents"
             tools:visibility="visible" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewFinishedEvents"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"/>
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvUpcomingEvent" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

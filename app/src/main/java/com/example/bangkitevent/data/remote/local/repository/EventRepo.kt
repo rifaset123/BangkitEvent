@@ -1,7 +1,6 @@
 package com.example.bangkitevent.data.remote.local.repository
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.liveData
 import com.example.bangkitevent.data.remote.local.entity.EventEntity
 import com.example.bangkitevent.data.remote.local.room.EventDao
@@ -14,12 +13,14 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 
 class EventRepo  private constructor(
+    @Suppress("unused")
     private val apiService: ApiService,
     private val eventDao: EventDao,
+    @Suppress("unused")
     private val appExecutors: AppExecutors
 ) {
     // MediatorLiveData digunakan untuk menggabungkan dua sumber data (LiveData) yang berbeda
-    private val result = MediatorLiveData<Result<List<EventEntity>>>()
+//    private val result = MediatorLiveData<Result<List<EventEntity>>>()
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
 
@@ -57,12 +58,6 @@ class EventRepo  private constructor(
         }
     }
 
-    // hanya mengubah sebuah value, yakni isBookmarked dan meng-update-nya pada database
-    suspend fun setFavorite(events: EventEntity, isFavorite: Boolean) {
-        // hapus penggunaan appExecutor karena pakek coroutine
-        events.isFavorite = isFavorite
-        eventDao.updateNews(events)
-    }
 
     suspend fun updateEventFavoriteStatus(eventId: String, isFavorite: Boolean) {
         eventDao.updateEventFavoriteStatus(eventId, isFavorite)
@@ -78,8 +73,8 @@ class EventRepo  private constructor(
         private var instance: EventRepo? = null
         fun getInstance(
             apiService: ApiService,
+            appExecutors: AppExecutors,
             newsDao: EventDao,
-            appExecutors: AppExecutors
         ): EventRepo =
             instance ?: synchronized(this) {
                 instance ?: EventRepo(apiService, newsDao, appExecutors)

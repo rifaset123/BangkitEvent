@@ -1,17 +1,10 @@
 package com.example.bangkitevent.ui.detail
 
-import android.app.Application
-import android.util.Log
-import android.widget.Toast
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
-import com.example.bangkitevent.data.remote.local.entity.EventEntity
 import com.example.bangkitevent.data.remote.local.repository.EventRepo
-import com.example.bangkitevent.data.remote.local.room.EventDao
 import com.example.bangkitevent.data.remote.response.Event
 import com.example.bangkitevent.data.remote.response.EventIDResponse
 import com.example.bangkitevent.data.remote.retrofit.ApiConfig
@@ -76,20 +69,7 @@ class DetailViewModel(private val eventRepo: EventRepo) : ViewModel() {
 
     // fitur bookmark
 
-    fun getBookmarkedNews() = eventRepo.getFavoriteEvents()
-
-    // apply coroutine
-    fun saveNews(events: EventEntity) {
-        viewModelScope.launch {
-            eventRepo.setFavorite(events, true)
-        }
-    }
-
-    fun deleteNews(events: EventEntity) {
-        viewModelScope.launch {
-            eventRepo.setFavorite(events, false)
-        }
-    }
+//    fun getBookmarkedNews() = eventRepo.getFavoriteEvents()
 
     // favorite
     fun setFavoriteStatus(eventId: String, isFavorite: Boolean) {

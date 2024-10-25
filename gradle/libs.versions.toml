@@ -11,12 +11,17 @@ material = "1.12.0"
 constraintlayout = "2.1.4"
 lifecycleLivedataKtx = "2.8.6"
 lifecycleViewmodelKtx = "2.8.6"
+#noinspection GradleDependency
 navigationFragmentKtx = "2.8.2"
+#noinspection GradleDependency
 navigationUiKtx = "2.8.2"
 retrofit = "2.11.0"
 loggingInterceptor = "4.11.0"
+#noinspection GradleDependency
 roomCompiler = "2.5.2"
+#noinspection GradleDependency
 roomRuntime = "2.5.2"
+#noinspection GradleDependency
 roomKtx = "2.5.2"
 preference = "1.2.1"
 datastorePreferences = "1.1.1"
@@ -24,7 +29,9 @@ kotlinxCoroutinesCore = "1.7.3"
 
 moshiKotlin = "1.11.0"
 moshiKotlinCodegen = "1.15.1"
+#noinspection GradleDependency
 workRuntime = "2.8.1"
+#noinspection GradleDependency
 androidAsyncHttp = "1.4.10"
 
 [libraries]

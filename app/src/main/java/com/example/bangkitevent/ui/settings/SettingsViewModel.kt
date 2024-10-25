@@ -1,11 +1,9 @@
 package com.example.bangkitevent.ui.settings
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class SettingsViewModel(private val preferences: SettingPreferences) : ViewModel() {
@@ -14,17 +12,9 @@ class SettingsViewModel(private val preferences: SettingPreferences) : ViewModel
 
 
     fun saveThemeSetting(isDarkModeActive: Boolean) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             preferences.saveThemeSetting(isDarkModeActive)
         }
     }
 
-    // notif
-    fun getNotificationSettings() = preferences.getNotificationSetting().asLiveData()
-
-    fun saveNotificationSetting(isNotificationActive: Boolean) {
-        viewModelScope.launch {
-            preferences.saveNotificationSetting(isNotificationActive)
-        }
-    }
 }

@@ -17,7 +17,7 @@ object Injection {
         val database = EventDatabase.getInstance(context)
         val dao = database.newsDao()
         val appExecutors = AppExecutors()
-        return EventRepo.getInstance(apiService, dao, appExecutors)
+        return EventRepo.getInstance(apiService, appExecutors, dao )
     }
 
     // settings

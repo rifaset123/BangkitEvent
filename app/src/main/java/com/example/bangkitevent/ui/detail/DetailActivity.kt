@@ -3,22 +3,16 @@ package com.example.bangkitevent.ui.detail
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.bangkitevent.R
 import com.example.bangkitevent.databinding.ActivityDetailBinding
 import com.example.bangkitevent.ui.ViewModelFactory
-import com.example.bangkitevent.ui.home.HomeViewModel
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.button.MaterialButton
 import kotlin.math.abs
@@ -31,7 +25,7 @@ class DetailActivity : AppCompatActivity() {
 
     companion object{
         const val EXTRA_ID = "0"
-        const val TAB_FAVORITE = "favorite"
+//        const val TAB_FAVORITE = "favorite"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -111,7 +105,7 @@ class DetailActivity : AppCompatActivity() {
 
                 // favorite button ketika di klik akan menambahkan ke favorite
                 favorite.setOnClickListener {
-                    event?.let { eventEntity ->
+                    event.let { eventEntity ->
                         viewModel.isEventFavorited(eventEntity.id.toString()).observe(this) { isFavorite ->
                             viewModel.setFavoriteStatus(eventEntity.id.toString(), !isFavorite)
                         }

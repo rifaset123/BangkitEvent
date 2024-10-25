@@ -1,24 +1,16 @@
 package com.example.bangkitevent.ui.finished
 
-import android.app.Application
-import android.util.Log
-import android.widget.Toast
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.bangkitevent.data.remote.local.entity.EventEntity
-import com.example.bangkitevent.data.remote.local.repository.EventRepo
 import com.example.bangkitevent.data.remote.response.EventResponse
 import com.example.bangkitevent.data.remote.response.ListEventsItem
 import com.example.bangkitevent.data.remote.retrofit.ApiConfig
-import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class FinishedViewModel(private val eventRepo: EventRepo) : ViewModel() {
+class FinishedViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is dashboard Fragment"
@@ -58,8 +50,6 @@ class FinishedViewModel(private val eventRepo: EventRepo) : ViewModel() {
                         _listEventsItem.value = newListEventsItem ?: it.listEvents
 //                        Log.d("wtest", "onResponse: Success - ${newListEventsItem ?: it.listEvents}")
 
-                        // Save to local database
-//                        saveEventsToDatabase(it.listEvents)
                     } ?: run {
 //                        Log.e("wtest", "onResponse: Failure - Response body is null")
                     }
@@ -81,7 +71,7 @@ class FinishedViewModel(private val eventRepo: EventRepo) : ViewModel() {
 //        Log.d("QueryTest", "Fetching event details for ID: $query")
 
         // call API
-        val client = ApiConfig.getApiService().searchEvents(query)
+        val client = ApiConfig.getApiService().searchFinished(query)
         client.enqueue(object : Callback<EventResponse> {
             override fun onResponse(call: Call<EventResponse>, response: Response<EventResponse>) {
                 _isLoading.value = false
